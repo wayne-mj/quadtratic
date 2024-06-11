@@ -2,9 +2,9 @@ program quadratic
     implicit none
 
     ! Rewriten to work with real numbers
-    real :: a, b, c
-    integer :: x 
-    integer, parameter :: range = 100
+    real :: a, b, c, xreal
+    integer :: x, xp 
+    !integer, parameter :: range = 100
     real :: x1, x2, d, y
     character(1), parameter :: newline = achar(10)
     logical :: graph = .false.
@@ -16,14 +16,6 @@ program quadratic
     write (*, '(A)', advance='no') 'Enter a, b, c: '
     read (*,*) a, b, c
     
-    ! Or you can ask for them one by one
-    ! write (*, '(A)', advance='no') 'Enter a: '
-    ! read (*,*) a
-    ! write (*, '(A)', advance='no') 'Enter b: '
-    ! read (*,*) b
-    ! write (*, '(A)', advance='no') 'Enter c: '
-    ! read (*,*) c
-
     ! Calculate the discriminant
     d = b**2 - 4*a*c
 
@@ -40,9 +32,12 @@ program quadratic
     ! If there are real roots, write the data to a file
     if (graph .eqv. .true.) then
         open (unit=10, file='quadratic.dat', status='replace')
-        do x = -range, range
-            y = a*(real(x)**2) + b*(real(x)) + c
-            write (10, '(2F15.2)') real(x),  real(y)
+        do x = -1, 5  ! -range, range
+            do xp = 0, 99
+                xreal = real(x) + real(xp)/100.                  ! x = x + xp/10.
+                y = a*(xreal**2) + b*xreal + c
+                write (10, '(2F15.2)') real(xreal),  real(y)
+            end do
         end do
         flush (10)
         close (10)
